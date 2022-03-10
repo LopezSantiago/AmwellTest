@@ -20,26 +20,19 @@ const askForANumber = () => {
   }
 };
 
-const isPrime = (number) => {
-  return Array.from({ length: number - 2 }, (_, i) => i + 2).every(
+const isPrime = (number) =>
+  Array.from({ length: number - 2 }, (_, i) => i + 2).every(
     (i) => number % i !== 0
   );
-};
 
-const fibonacci = (position) => {
-  if (position <= 1) return 1;
-  return fibonacci(position - 1) + fibonacci(position - 2);
-};
+const fibonacci = (position) =>
+  position <= 1 ? 1 : fibonacci(position - 1) + fibonacci(position - 2);
 
 const nextPrimeFibonacci = (number, count = 1) => {
   const fib = fibonacci(count);
-  if (fib > number) {
-    if (isPrime(fib)) {
-      return fib;
-    } else {
-      return nextPrimeFibonacci(number, count + 1);
-    }
-  } else {
-    return nextPrimeFibonacci(number, count + 1);
-  }
+  return fib > number
+    ? isPrime(fib)
+      ? fib
+      : nextPrimeFibonacci(number, count + 1)
+    : nextPrimeFibonacci(number, count + 1);
 };
