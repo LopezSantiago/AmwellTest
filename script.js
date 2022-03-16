@@ -9,38 +9,30 @@
 
 // Converting to an Angular app or typescript is not considered a necessity here.
 // We're mostly interested in understanding how engineers can critique the code & suggest improvements.
-
-var ispnum = function(num) {
-    for(var i = 2; i < num; i++)
-      if  (num % i === 0) return false;
-    return num > 1;
+const askForANumber = () => {
+  const num = window.prompt("Set a number", 2);
+  if (!isNaN(num)) {
+    const result = nextPrimeFibonacci(num);
+    alert("Next prime fib is: " + result);
+  } else {
+    alert("Should be a number");
+    askForANumber();
+  }
 };
 
-const fibonacci = (num) => {
-    if (num <= 1)return 1;
-  return fibonacci(num - 1) + fibonacci(num - 2);
+const isPrime = (number) =>
+  Array.from({ length: number - 2 }, (_, i) => i + 2).every(
+    (i) => number % i !== 0
+  );
+
+const fibonacci = (position) =>
+  position <= 1 ? 1 : fibonacci(position - 1) + fibonacci(position - 2);
+
+const nextPrimeFibonacci = (number, count = 1) => {
+  const fib = fibonacci(count);
+  return fib > number
+    ? isPrime(fib)
+      ? fib
+      : nextPrimeFibonacci(number, count + 1)
+    : nextPrimeFibonacci(number, count + 1);
 };
-
-function nxtPrmFib(number) {
-    let r = 0;
-    let l = 1;
-    while (true) {
-        var fib = fibonacci(l);
-        console.log('fib', fib, number);
-        if (fib > number) {
-            if (ispnum(fib)) {
-                r = fib;
-                break;
-                } else {
-                    l = l + 1;    
-                    console.warn('bumping to ', fib);
-                }
-            } else {
-                l = l + 1;
-                console.warn('bumping to', fib);
-            }
-    }
-    console.warn('Next prime fib ', r);
-}
-
-nxtPrmFib(20);
